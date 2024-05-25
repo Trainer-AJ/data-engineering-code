@@ -38,3 +38,38 @@ VALUES
     (12, 'Peter', 'Ogwal', 'peter.ogwal@example.com', '+256-888-777666', '789 Jinja Rd', 'Jinja', 'Jinja', '256', 'Uganda', '2024-05-23 09:45:00');
 
 select * from Customers where Country = 'India'
+
+
+// ------------------------------------------------------------------------------
+
+CREATE TABLE Sales (
+    SaleID INT PRIMARY KEY,
+    CustomerID INT,
+    SaleDate DATETIME,
+    Amount DECIMAL(10, 2),
+    FOREIGN KEY (CustomerID) REFERENCES Customers(CustomerID)
+);
+
+-- Insert some sample data into the Sales table
+INSERT INTO Sales (SaleID, CustomerID, SaleDate, Amount) VALUES
+(1, 1, '2024-05-01 10:00:00', 100.00),
+(2, 2, '2024-05-02 11:30:00', 150.50),
+(3, 3, '2024-05-03 09:45:00', 75.25),
+(4, 1, '2024-05-04 15:20:00', 200.75),
+(5, 4, '2024-05-05 14:10:00', 50.00);
+
+SELECT c.FirstName, c.LastName, s.SaleDate, s.Amount
+FROM Customers c
+JOIN Sales s ON c.CustomerID = s.CustomerID;
+
+SELECT c.FirstName, c.LastName, SUM(s.Amount) AS TotalAmount
+FROM Customers c
+JOIN Sales s ON c.CustomerID = s.CustomerID
+GROUP BY c.FirstName, c.LastName;
+
+SELECT TOP 1 c.FirstName, c.LastName, SUM(s.Amount) AS TotalAmount
+FROM Customers c
+JOIN Sales s ON c.CustomerID = s.CustomerID
+GROUP BY c.FirstName, c.LastName
+ORDER BY TotalAmount DESC;
+
