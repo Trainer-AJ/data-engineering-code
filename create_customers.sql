@@ -1,3 +1,5 @@
+drop table customers
+
 CREATE TABLE Customers (
     CustomerID INT PRIMARY KEY,
     FirstName VARCHAR(50),
